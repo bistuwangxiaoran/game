@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+.Butt{color:white;background:#8f7a66;padding:10px;border-radius:5px;width:70px;}
+.Butt:hover{background:#9f8b77;}
+.kuai{vertical-align:middle;background:#ccc0b3;width:100px;height:100px;line-height:100px;margin:5px;border-radius:10px;display:inline-block;}
+</style>
+
+<script>
+var map=new Array(0,0,0,0);
+for(var i=0;i<4;i++) map[i]=new Array(0,0,0,0);
+var score=0;
+var finish=0;
+var x=0;
+var y=0;
+function color(num) {
+    switch (num) {
+    case 2:
+        return "#eee4da";
+        break;
+    case 4:
+        return "#ee82ef";
+        break;
+    case 8:
+        return "#f26179";
+        break;
+    case 16:
+        return "#f65e36";
+        break;
+    case 32:
+        return "#ff0000";
+        break;
+    case 64:
+        return "#ffa500";
+        break;
+    case 128:
+        return "#ffd700";
+        break;
+    case 256:
+        return "#9acd32";
+        break;
+    case 512:
+        return "#48d1cc";
+        break;
+    case 1024:
+        return "#00bbff";
+        break;
+    case 2048:
+        return "#0000ff";
+        break;
+    case 4096:
+        return "#000080";
+        break;
+    case 8192:
+        return "#a597ff";
+        break;
+    case 16384:
+        return "#7d4aff";
+        break;
+    case 32768:
+        return "#502d91";
+        break;
+    }
+    return "black";
+}
+function Edit(map,num){
+    var block=document.getElementById(map);
+    if(num!=0){
+        block.style.background=color(num);
+        block.innerHTML=num;
+        block.style.fontSize="35px";
+        if(num==2) block.style.color="#776e65";
+        else block.style.color="white";
+    }
+    else{
+        block.style.background="#ccc0b3"
+        block.innerHTML="";
+    }
+}
+function wmove(x,y,k){
+
+    if(x!=0) {
+
+        if(map[x-1][y]==0) {
+
+            map[x][y]=0;
+
+            map[x-1][y]=k;
+
+            wmove(x-1,y,k);
+
+        }
+
+        else if(map[x-1][y]==k){
+
+            map[x][y]=0;
+
+            map[x-1][y]=2*k;
+
+        }
+
+    }
+
+}
+
+function amove(x,y,k){
+
+    if(y!=0) {
+
+        if(map[x][y-1]==0) {
+
+            map[x][y]=0;
+
+            map[x][y-1]=k;
+
+            amove(x,y-1,k);
+
+        }
+
+        else if(map[x][y-1]==k) {
+
+            map[x][y]=0;
+
+            map[x][y-1]=2*k;
+
+        }
+
+    }
+
+}
+
+function dmove(x,y,k){
+
+    if(y!=3) {
+
+        if(map[x][y+1]==0) {
+
+            map[x][y]=0;
+
+            map[x][y+1]=k;
+
+            dmove(x,y+1,k);
+
+        }
+
+        else if(map[x][y+1]==k) {
+
+            map[x][y]=0;
+
+            map[x][y+1]=2*k;
+
+        }
+
+    }
+
+}
+
+function smove(x,y,k){
+
+    if(x!=3) {
+
+        if(map[x+1][y]==0) {
+
+            map[x][y]=0;
+
+            map[x+1][y]=k;
+
+            smove(x+1,y,k);
+
+        }
+
+        else if(map[x+1][y]==k) {
+
+            map[x][y]=0;
+
+            map[x+1][y]=2*k;
+
+        }
+
+    }
+
+}
+
+function Move(k){
+
+    if(k=='w'){
+
+        for(var i=1; i<4; i++){
+
+            for(var j=0; j<4; j++){
+
+                if(map[i][j]!=0) wmove(i,j,map[i][j]);
+
+            }
+
+        }
+
+    }
+
+    else if(k=='a'){
+
+        for(var j=1; j<4; j++){
+
+            for(var i=0; i<4; i++){
+
+                if(map[i][j]!=0) amove(i,j,map[i][j]);
+
+            }
+
+        }
+
+    }
+
+    else if(k=='d'){
+
+        for(var j=2; j>=0; j--){
+
+            for(var i=0; i<4; i++){
+
+                if(map[i][j]!=0) dmove(i,j,map[i][j]);
+
+            }
+
+        }
+
+    }
+
+    else{
+
+        for(var i=2; i>=0; i--){
+
+            for(var j=0; j<4; j++){
+
+                if(map[i][j]!=0) smove(i,j,map[i][j]);
+
+            }
+
+        }
+
+    }
+
+}    
+function Editmap(){
+    for(var i=0; i<4; i++){
+
+        for(var j=0; j<4; j++){
+
+            Edit(i*10+j,map[i][j]);
+
+        }
+
+    }
+}
+function Rand(){
+    var R=new Array();
+    var r=0;
+    for(var i=0;i<4;i++){
+        for(var j=0;j<4;j++){
+            if(map[i][j]==0){
+                R[r]=i*10+j;
+                r++;
+            }
+        }
+    }
+    if(r!=0){
+        var sui;
+
+        sui=Math.floor(Math.random()*r);
+
+        map[Math.floor(R[sui]/10)][R[sui]%10]=2;
+        Edit(R[sui],2);
+        score=score+2;
+        document.getElementById("Scor").innerHTML=score;
+    }
+    if(r==0){
+        setTimeout(function(){ alert("游戏结束\n得分为:"+score); }, 10);
+    }
+} 
+function Clear(){
+    for(var i=0;i<4;i++){
+        for(var j=0;j<4;j++){
+            map[i][j]=0;
+            Edit(i*10+j,0);
+        }
+    }
+    score=0;
+    document.getElementById("Scor").innerHTML=score;
+}
+function Editcolor(){
+    var n=2;
+    for(var i=0;i<4;i++){
+        for(var j=0;j<4;j++){
+            map[i][j]=n;
+            n=n*2;
+        }
+    }
+}
+function keydown(){
+    var kc=window.event.keyCode;
+    if(kc==32||kc==13) {Clear();Rand();}
+    else if(kc==65||kc==37) {Move('a');Editmap();Rand();}
+    else if(kc==83||kc==40) {Move('s');Editmap();Rand();}
+    else if(kc==68||kc==39) {Move('d');Editmap();Rand();}
+    else if(kc==87||kc==38) {Move('w');Editmap();Rand();}
+}
+function mdown(){
+    x=window.event.x;
+    y=window.event.y;
+}
+function mup(){
+    var x2=0;
+    var y2=0;
+    x2=window.event.x;
+    y2=window.event.y;
+    if((x-x2)>100&&Math.abs(y-y2)<100) {Move('a');Editmap();Rand();}
+    if((x2-x)>100&&Math.abs(y-y2)<100) {Move('d');Editmap();Rand();}
+    if((y-y2)>100&&Math.abs(x-x2)<100) {Move('w');Editmap();Rand();}
+    if((y2-y)>100&&Math.abs(x-x2)<100) {Move('s');Editmap();Rand();}
+}
+</script>
+</head>
+
+<body style="text-align:center;" onkeydown="keydown()" onmousedown="mdown()" onmouseup="mup()">
+    <h2 >2048</h2>
+    <button class="Butt" onclick="Move('w');Editmap();Rand()" style="position: relative;bottom:20px;left:300px;">up(w)</button>
+    <button class="Butt" onclick="Clear();Rand()">start</button>
+    <button class="Butt" onclick="Clear();Editcolor();Editmap()">color</button>   
+    <button class="Butt" onclick="Move('a');Editmap();Rand()">left(a)</button>
+    <button class="Butt" onclick="Move('s');Editmap();Rand()" style="position: relative;top:20px;">down(s)</button>
+    <button class="Butt" onclick="Move('d');Editmap();Rand()">right(d)</button>
+    <h4>score:<span id="Scor">0</span></h4>
+    <div style="margin:0 auto;background:#bbada0;width:460px;padding:5px;border-radius:20px">
+        <div class="kuai" id="0"><h1 style="margin:0"></h1></div>
+        <div class="kuai" id="1"><h1 style="margin:0"></h1></div>
+        <div class="kuai" id="2"><h1 style="margin:0"></h1></div>
+        <div class="kuai" id="3"><h1 style="margin:0"></h1></div>
+       
+        <div class="kuai" id="10"><h1 style="margin:0"></h1></div>
+        <div class="kuai" id="11"><h1 style="margin:0"></h1></div>
+        <div class="kuai" id="12"><h1 style="margin:0"></h1></div>
+        <div class="kuai" id="13"><h1 style="margin:0"></h1></div>
+     
+        <div class="kuai" id="20"><h1 style="margin:0"></h1></div>
+        <div class="kuai" id="21"><h1 style="margin:0"></h1></div>
+        <div class="kuai" id="22"><h1 style="margin:0"></h1></div>
+        <div class="kuai" id="23"><h1 style="margin:0"></h1></div>
+       
+        <div class="kuai" id="30"><h1 style="margin:0"></h1></div>
+        <div class="kuai" id="31"><h1 style="margin:0"></h1></div>
+        <div class="kuai" id="32"><h1 style="margin:0"></h1></div>
+        <div class="kuai" id="33"><h1 style="margin:0"></h1></div>       
+    </div>
+    <h3>操作方法</h3>
+    <p>asdw键(推荐)</p>
+    <p>鼠标点击按钮(推荐)</p>
+    <p>上下左右键</p>
+    <p>鼠标点击拖拽</p>
+</body>
+</html>
