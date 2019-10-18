@@ -186,9 +186,7 @@ function Rand(){
         score=score+2;
         document.getElementById("Scor").innerHTML=score;
     }
-    if(r==0){
-        setTimeout(function(){ alert("游戏结束\n得分为:"+score); }, 10);
-    }
+    else alert("游戏结束\n得分为:"+score);
 } 
 function Clear(){
     for(var i=0;i<4;i++){
