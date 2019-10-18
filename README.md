@@ -1,1 +1,1 @@
-默认为Google Chrome浏览器
+默认为打开方式为Google Chrome浏览器打开
