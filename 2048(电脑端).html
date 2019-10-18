@@ -80,177 +80,91 @@ function Edit(map,num){
     }
 }
 function wmove(x,y,k){
-
     if(x!=0) {
-
         if(map[x-1][y]==0) {
-
             map[x][y]=0;
-
             map[x-1][y]=k;
-
             wmove(x-1,y,k);
-
         }
-
         else if(map[x-1][y]==k){
-
             map[x][y]=0;
-
             map[x-1][y]=2*k;
-
         }
-
     }
-
 }
-
 function amove(x,y,k){
-
     if(y!=0) {
-
         if(map[x][y-1]==0) {
-
             map[x][y]=0;
-
             map[x][y-1]=k;
-
             amove(x,y-1,k);
-
         }
-
+    }
         else if(map[x][y-1]==k) {
-
             map[x][y]=0;
-
             map[x][y-1]=2*k;
-
         }
-
     }
-
 }
-
 function dmove(x,y,k){
-
     if(y!=3) {
-
         if(map[x][y+1]==0) {
-
             map[x][y]=0;
-
             map[x][y+1]=k;
-
             dmove(x,y+1,k);
-
         }
-
         else if(map[x][y+1]==k) {
-
             map[x][y]=0;
-
             map[x][y+1]=2*k;
-
         }
-
     }
-
 }
-
 function smove(x,y,k){
-
     if(x!=3) {
-
         if(map[x+1][y]==0) {
-
             map[x][y]=0;
-
             map[x+1][y]=k;
-
             smove(x+1,y,k);
-
         }
-
         else if(map[x+1][y]==k) {
-
             map[x][y]=0;
-
             map[x+1][y]=2*k;
-
         }
-
     }
-
 }
-
 function Move(k){
-
     if(k=='w'){
-
         for(var i=1; i<4; i++){
-
             for(var j=0; j<4; j++){
-
                 if(map[i][j]!=0) wmove(i,j,map[i][j]);
-
             }
-
         }
-
     }
-
     else if(k=='a'){
-
         for(var j=1; j<4; j++){
-
             for(var i=0; i<4; i++){
-
                 if(map[i][j]!=0) amove(i,j,map[i][j]);
-
             }
-
         }
-
     }
-
     else if(k=='d'){
-
         for(var j=2; j>=0; j--){
-
-            for(var i=0; i<4; i++){
-
+            for(var i=0; i<4; i++) {
                 if(map[i][j]!=0) dmove(i,j,map[i][j]);
-
             }
-
         }
-
     }
-
     else{
-
         for(var i=2; i>=0; i--){
-
             for(var j=0; j<4; j++){
-
                 if(map[i][j]!=0) smove(i,j,map[i][j]);
-
             }
-
         }
-
     }
-
 }    
 function Editmap(){
     for(var i=0; i<4; i++){
-
-        for(var j=0; j<4; j++){
-
-            Edit(i*10+j,map[i][j]);
-
-        }
-
+        for(var j=0; j<4; j++) Edit(i*10+j,map[i][j]);
     }
 }
 function Rand(){
@@ -266,16 +180,14 @@ function Rand(){
     }
     if(r!=0){
         var sui;
-
         sui=Math.floor(Math.random()*r);
-
         map[Math.floor(R[sui]/10)][R[sui]%10]=2;
         Edit(R[sui],2);
         score=score+2;
         document.getElementById("Scor").innerHTML=score;
     }
     if(r==0){
-        setTimeout(function(){ alert("ÓÎÏ·½áÊø\nµÃ·ÖÎª:"+score); }, 10);
+        setTimeout(function(){ alert("æ¸¸æˆç»“æŸ\nå¾—åˆ†ä¸º:"+score); }, 10);
     }
 } 
 function Clear(){
@@ -352,10 +264,10 @@ function mup(){
         <div class="kuai" id="32"><h1 style="margin:0"></h1></div>
         <div class="kuai" id="33"><h1 style="margin:0"></h1></div>       
     </div>
-    <h3>²Ù×÷·½·¨</h3>
-    <p>asdw¼ü(ÍÆ¼ö)</p>
-    <p>Êó±êµã»÷°´Å¥(ÍÆ¼ö)</p>
-    <p>ÉÏÏÂ×óÓÒ¼ü</p>
-    <p>Êó±êµã»÷ÍÏ×§</p>
+    <h3>æ“ä½œæ–¹æ³•</h3>
+    <p>asdwé”®(æ¨è)</p>
+    <p>é¼ æ ‡ç‚¹å‡»æŒ‰é’®(æ¨è)</p>
+    <p>ä¸Šä¸‹å·¦å³é”®</p>
+    <p>é¼ æ ‡ç‚¹å‡»æ‹–æ‹½</p>
 </body>
 </html>
