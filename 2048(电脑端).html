@@ -99,7 +99,6 @@ function amove(x,y,k){
             map[x][y-1]=k;
             amove(x,y-1,k);
         }
-    }
         else if(map[x][y-1]==k) {
             map[x][y]=0;
             map[x][y-1]=2*k;
